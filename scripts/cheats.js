@@ -89,7 +89,8 @@ let cheatList = [
         Vars.ui.showInfoPopup("Mini Rumbling!", 3, 1, 1, 1, 1, 1)
     }),
 
-    //    Deletes every odd unit except the player
+
+    //    Deletes every odd unit except the player TODO add a way to reverse this using the blip
     newCheat("thanos snap", "i a m i n e v i t a b l e", () => {
         let playerUnit = Vars.player.unit()
         let unitGroup = Groups.unit
