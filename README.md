@@ -13,4 +13,5 @@ Adds GTA San Andreas style cheat codes to Mindustry.<br>To activate them, simply
 | Thanos Snap      | Erases half of the units on the map                  | "iaminevitable"                        |
 | Time Stop        | Time slows down to a near halt                       | "zawarudo"                             |
 | Editor Mode      | Toggles editor mode                                  | "thisismyworld"                        |
+#
 **More cheats coming soon**
