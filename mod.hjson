@@ -1,7 +1,7 @@
 name: "cheat-codes"
 displayName: "Cheat Codes Mod"
 author: "electricgun"
-description: "Adds some rather powerful and fun powerups that are activated by typing out the right sequence of letters.\n\nPowerups include:\n-Time stop\n-God mode\nand more...\n\nCan be used to cheat your way through the game.\n\nConsole is not required, but can be used to avoid activating keybinds while typing cheat codes.\n\nWIP"
+description: "Adds some rather powerful and fun powerups activated by typing out the right sequence of letters while in-game.\n\nPowerups include:\n-Time stop\n-God mode\n-Konami code\n-Thanos snap\nand more...\n\nCan be used to cheat your way through the game.\n\nConsole is not required, but can be used to avoid activating keybinds while typing cheat codes.\n\nWIP"
 version: "1.0"
 repo: "electricgun/message-block-commands"
 hidden: true
