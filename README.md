@@ -1,5 +1,8 @@
 # Cheat Codes Mod
-Adds GTA San Andreas style cheat codes to Mindustry.<br>To activate them, simply type out the strings of text corresponding to them until something happens.<br>Mistakes and typos will reset the strings, so make sure you type them out correctly.
+Adds GTA San Andreas style cheat codes to Mindustry.<br>
+To activate them, simply type out the strings of text corresponding to them until something happens.<br>
+Mistakes and typos will reset the strings, so make sure you type them out correctly.<br>
+Only works in game.<br>
 # List of cheats
 | Name             | Effects                                              |  Code                                  |
 | -------------    | -------------                                        | ---                                    |
