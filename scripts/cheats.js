@@ -38,6 +38,10 @@ let cheatList = [
         sounds.amongus.play()
     }),
 
+     newCheat("forhonor", "h o n o r", () => {
+        Vars.player.unit().kill()
+    }),
+
     //   TODO
     newCheat("qwerty", "q w e r t y u i o p", () => {
 
