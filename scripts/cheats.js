@@ -38,10 +38,6 @@ let cheatList = [
         sounds.amongus.play()
     }),
 
-     newCheat("forhonor", "h o n o r", () => {
-        Vars.player.unit().kill()
-    }),
-
     //   TODO
     newCheat("qwerty", "q w e r t y u i o p", () => {
 
@@ -115,22 +111,56 @@ let cheatList = [
 
     //    Slows down time while accelerating the player for 9 seconds
     newCheat("za warudo", "z a w a r u d o", () => {
+        let playerUnit = Vars.player.unit()
         let timeControl = Vars.mods.getMod("time-control");
         if (timeControl != null && timeControl.isSupported() && timeControl.enabled()) {
             Log.infoTag("Cheat Codes Mod", "Cannot time stop; Time Control is installed!")
             return
         }
 
+        if (playerUnit.hasEffect(effects.timestop)) {
+            return
+        }
+
         sounds.zawarudo.play()
 
+        //    Change ambient light
         let prevLighting = Vars.state.rules.lighting
         let prevAmbientLight = Vars.state.rules.ambientLight
 
         Vars.state.rules.lighting = true
         Vars.state.rules.ambientLight = new Color(.2, 0.1, .4, .2)
 
-        let duration = 9
-        let playerUnit = Vars.player.unit()
+        //    Play effect
+        let zaWave = new WaveEffect()
+        Object.assign(zaWave, {
+            colorFrom: new Color(.4,0,.8,1),
+            colorTo: new Color(.6,.6,.3,0),
+            sizeFrom: 0,
+            sizeTo: 1000,
+            strokeFrom: 0,
+            strokeTo: 100,
+            lifetime: 60 * 0.05,
+            lightScl: 0
+        })
+        let playerPosition = new Vec2(playerUnit.x, playerUnit.y)
+
+        zaWave.at(playerPosition)
+        Time.runTask(10, () => {
+            zaWave.lifetime = 120 * 0.05
+            zaWave.at(playerPosition)
+        })
+        Time.runTask(20, () => {
+            zaWave.lifetime = 180 * 0.05
+            zaWave.at(playerPosition)
+        })
+        Time.runTask(30, () => {
+            zaWave.lifetime = 240 * 0.05
+            zaWave.at(playerPosition)
+        })
+
+        //    Time stop
+        let duration = 18
         playerUnit.apply(effects.timestop, 1000)
 
         Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60 * .05)
@@ -154,6 +184,10 @@ let cheatList = [
             Vars.state.rules.editor = !isEditor
             Vars.ui.showInfoPopup("Editor Mode disabled.", 2, 1, 1, 1, 1, 1)
         }
+    }),
+
+    newCheat("forhonor", "h o n o r", () => {
+        Vars.player.unit().kill()
     }),
 ]
 
