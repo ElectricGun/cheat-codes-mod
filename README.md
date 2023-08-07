@@ -15,7 +15,7 @@ Only works in game.<br>
 | Thanos Snap      | Erases half of the units on the map                  | "iaminevitable"                        |
 | Time Stop        | Time slows down to a near halt                       | "zawarudo"                             |
 | Editor Mode      | Toggles editor mode                                  | "thisismyworld"                        |
-| For Honor        | Destroys player unit (Contributed by Dryehm)         | "honor"                                |
+| For Honor        | Destroys player unit (Contributed by Dryehm)         | "thisisforhonor"                       |
 # WIP
 * More cheats coming soon, suggest them in the Issues tab
 * Some of these cheat codes need to be changed to prevent accidental discharge
