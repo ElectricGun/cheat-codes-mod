@@ -1,5 +1,7 @@
 const effects = require("effects")
 const sounds = require("sounds")
+const vars = require("vars")
+
 
 function newCheat(name, string, func) {
     string = string.split(" ")
@@ -112,6 +114,7 @@ let cheatList = [
     //    Slows down time while accelerating the player for 9 seconds
     newCheat("za warudo", "z a w a r u d o", () => {
         let playerUnit = Vars.player.unit()
+        let unitType = playerUnit.type
         let timeControl = Vars.mods.getMod("time-control");
         if (timeControl != null && timeControl.isSupported() && timeControl.enabled()) {
             Log.infoTag("Cheat Codes Mod", "Cannot time stop; Time Control is installed!")
@@ -131,6 +134,7 @@ let cheatList = [
         Vars.state.rules.lighting = true
         Vars.state.rules.ambientLight = new Color(.2, 0.1, .4, .2)
 
+        let multiplier = vars.timeStopMultiplier
         //    Play effect
         let zaWave = new WaveEffect()
         Object.assign(zaWave, {
@@ -140,34 +144,40 @@ let cheatList = [
             sizeTo: 1000,
             strokeFrom: 0,
             strokeTo: 100,
-            lifetime: 60 * 0.05,
+            lifetime: 60 * multiplier,
             lightScl: 0
         })
         let playerPosition = new Vec2(playerUnit.x, playerUnit.y)
 
         zaWave.at(playerPosition)
         Time.runTask(10, () => {
-            zaWave.lifetime = 120 * 0.05
+            zaWave.lifetime = 120 * multiplier
             zaWave.at(playerPosition)
         })
         Time.runTask(20, () => {
-            zaWave.lifetime = 180 * 0.05
+            zaWave.lifetime = 180 * multiplier
             zaWave.at(playerPosition)
         })
         Time.runTask(30, () => {
-            zaWave.lifetime = 240 * 0.05
+            zaWave.lifetime = 240 * multiplier
             zaWave.at(playerPosition)
         })
 
         //    Time stop
         let duration = 18
         playerUnit.apply(effects.timestop, 1000)
+        let oldAccel = unitType.accel
+        let oldDrag = unitType.drag
+        unitType.accel = oldAccel / multiplier
+        unitType.drag = oldDrag / multiplier
 
         Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60 * .05)
         Timer.schedule(() => {
             Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60)
             playerUnit.vel.set(0, 0)
             playerUnit.unapply(effects.timestop)
+            unitType.accel = oldAccel
+            unitType.drag = oldDrag
 
             Vars.state.rules.lighting = prevLighting
             Vars.state.rules.ambientLight = prevAmbientLight
