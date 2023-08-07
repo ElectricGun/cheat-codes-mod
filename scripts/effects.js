@@ -1,3 +1,5 @@
+const vars = require("vars")
+
 const quickfox = extend(StatusEffect, "quickfox", {
     speedMultiplier: 4,
     isHidden(){
@@ -7,9 +9,10 @@ const quickfox = extend(StatusEffect, "quickfox", {
 
 const timestop = extend(StatusEffect, "timestop", {
 update(unit, time) {
-  let multiplier = 1 / .05
-    unit.speedMultiplier = 1 / Math.pow(.05, 2)
-    unit.reloadMultiplier = multiplier * 4
+  let timeMultiplier = vars.timeStopMultiplier
+  let multiplier = 1 / timeMultiplier
+    unit.speedMultiplier = 1 / timeMultiplier
+    unit.reloadMultiplier = multiplier
     unit.dragMultiplier = multiplier
     unit.damageMultiplier = multiplier
 }
