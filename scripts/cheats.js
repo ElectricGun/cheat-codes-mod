@@ -196,7 +196,7 @@ let cheatList = [
         }
     }),
 
-    newCheat("forhonor", "h o n o r", () => {
+    newCheat("forhonor", "t h i s i s f o r h o n o r", () => {
         Vars.player.unit().kill()
     }),
 ]
