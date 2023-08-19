@@ -164,7 +164,7 @@ let cheatList = [
         })
 
         //    Time stop
-        let duration = 18
+        let duration = 9
         playerUnit.apply(effects.timestop, 1000)
         let oldAccel = unitType.accel
         let oldDrag = unitType.drag
