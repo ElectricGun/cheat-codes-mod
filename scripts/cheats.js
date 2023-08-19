@@ -2,8 +2,19 @@ const effects = require("effects")
 const sounds = require("sounds")
 const vars = require("vars")
 
+let cooldowns = {}
 
-function newCheat(name, string, func) {
+function addCooldown(name, cooldown) {
+    cooldowns[name] = cooldown
+    Timer.schedule(
+        () => {
+            cooldowns[name] = 0
+        },
+        cooldown
+    )
+}
+
+function newCheat(name, string, cooldown, func) {
     string = string.split(" ")
     const cheat = {
         currString: [],
@@ -16,15 +27,23 @@ function newCheat(name, string, func) {
                     return
                 }
             }
+            
             if (this.currString.length == this.targetString.length) {
-                this.currString = []
-                Log.infoTag("Cheat Codes Mod", name + " cheat activated!")
-                
-                func()
 
-                Sounds.spark.play()
-                Sounds.sap.play()
+                    this.currString = []
 
+                    if(cooldowns[name] == undefined || cooldowns[name] == 0 || vars.debugMode == true) { 
+                        Log.infoTag("Cheat Codes Mod", name + " cheat activated!") 
+
+                        func()
+
+                        Sounds.spark.play()
+                        Sounds.sap.play()
+
+                        cooldowns[name] = cooldown
+                } else {
+                    Log.infoTag("Cheat Codes Mod", name + " on cooldown!") 
+                }
             }
         }
     }
@@ -36,17 +55,17 @@ let cheatList = [
 
 
     //   Amongus
-    newCheat("amongus", "a m o n g u s", () => {
+    newCheat("amongus", "a m o n g u s", 1, () => {
         sounds.amongus.play()
     }),
 
     //   TODO
-    newCheat("qwerty", "q w e r t y u i o p", () => {
+    newCheat("qwerty", "q w e r t y u i o p", 1, () => {
 
     }),
 
     //    Temporarily Increase speed
-    newCheat("quick brown fox", "t h e q u i c k b r o w n f o x j u m p e d o v e r t h e l a z y d o g", () => {
+    newCheat("quick brown fox", "t h e q u i c k b r o w n f o x j u m p e d o v e r t h e l a z y d o g", 30, () => {
         let playerUnit = Vars.player.unit()
         playerUnit.apply(effects.quickfox, 60 * 60 * 2)
 
@@ -54,12 +73,12 @@ let cheatList = [
     }),
     
     //    Self explanatory
-    newCheat("wind3", "w i n d num3", () => {
+    newCheat("wind3", "w i n d num3", 1, () => {
         Sounds.wind3.play()
     }),
 
     //    Multiplies health by 30
-    newCheat("konami", "w w s s a d a d b a enter", () => {
+    newCheat("konami", "w w s s a d a d b a enter", 180, () => {
         let playerUnit = Vars.player.unit()
         playerUnit.health = playerUnit.type.health * 30
 
@@ -67,7 +86,7 @@ let cheatList = [
     }),
 
     //    Temporary god mode
-    newCheat("god mode", "l o r e m i p s u m d o l o r s i t a m e t", () => {
+    newCheat("god mode", "l o r e m i p s u m d o l o r s i t a m e t", 60, () => {
         let playerUnit = Vars.player.unit()
         playerUnit.apply(StatusEffects.invincible, 60 * 60)
 
@@ -75,7 +94,7 @@ let cheatList = [
     }),
 
     //    Radially launch toxopids
-    newCheat("rumbling", "t h e r u m b l i n g i s h e r e", () => {
+    newCheat("rumbling", "t h e r u m b l i n g i s h e r e", 520, () => {
         let playerUnit = Vars.player.unit()
 
         let count = 6
@@ -93,7 +112,7 @@ let cheatList = [
 
 
     //    Deletes every odd unit except the player TODO add a way to reverse this using the blip
-    newCheat("thanos snap", "i a m i n e v i t a b l e", () => {
+    newCheat("thanos snap", "i a m i n e v i t a b l e", 30, () => {
         let playerUnit = Vars.player.unit()
         let unitGroup = Groups.unit
         let odd = 0
@@ -112,7 +131,7 @@ let cheatList = [
     }),
 
     //    Slows down time while accelerating the player for 9 seconds
-    newCheat("za warudo", "z a w a r u d o", () => {
+    newCheat("za warudo", "z a w a r u d o", 30, () => {
         let playerUnit = Vars.player.unit()
         let unitType = playerUnit.type
         let timeControl = Vars.mods.getMod("time-control");
@@ -125,17 +144,21 @@ let cheatList = [
             return
         }
 
-        sounds.zawarudo.play()
-
-        //    Change ambient light
-        let prevLighting = Vars.state.rules.lighting
-        let prevAmbientLight = Vars.state.rules.ambientLight
-
-        Vars.state.rules.lighting = true
-        Vars.state.rules.ambientLight = new Color(.2, 0.1, .4, .2)
-
         let multiplier = vars.timeStopMultiplier
+
         //    Play effect
+        let prezaWave = new WaveEffect()
+        Object.assign(prezaWave, {
+            colorFrom: new Color(.4,0,.8,1),
+            colorTo: new Color(.6,.6,.3,0),
+            sizeFrom: 1000,
+            sizeTo: 0,
+            strokeFrom: 0,
+            strokeTo: 100,
+            lifetime: 60,
+            lightScl: 0
+        })
+
         let zaWave = new WaveEffect()
         Object.assign(zaWave, {
             colorFrom: new Color(.4,0,.8,1),
@@ -147,45 +170,60 @@ let cheatList = [
             lifetime: 60 * multiplier,
             lightScl: 0
         })
+        
         let playerPosition = new Vec2(playerUnit.x, playerUnit.y)
 
-        zaWave.at(playerPosition)
-        Time.runTask(10, () => {
-            zaWave.lifetime = 120 * multiplier
-            zaWave.at(playerPosition)
-        })
-        Time.runTask(20, () => {
-            zaWave.lifetime = 180 * multiplier
-            zaWave.at(playerPosition)
-        })
-        Time.runTask(30, () => {
-            zaWave.lifetime = 240 * multiplier
-            zaWave.at(playerPosition)
-        })
+        prezaWave.at(playerPosition)
 
-        //    Time stop
-        let duration = 9
-        playerUnit.apply(effects.timestop, 1000)
-        let oldAccel = unitType.accel
-        let oldDrag = unitType.drag
-        unitType.accel = oldAccel / multiplier
-        unitType.drag = oldDrag / multiplier
+        Time.runTask(80, () => {
 
-        Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60 * .05)
-        Timer.schedule(() => {
-            Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60)
-            playerUnit.vel.set(0, 0)
-            playerUnit.unapply(effects.timestop)
-            unitType.accel = oldAccel
-            unitType.drag = oldDrag
+            sounds.zawarudo.play()
 
-            Vars.state.rules.lighting = prevLighting
-            Vars.state.rules.ambientLight = prevAmbientLight
-        }, duration)
+            //    Change ambient light
+            let prevLighting = Vars.state.rules.lighting
+            let prevAmbientLight = Vars.state.rules.ambientLight
+    
+            Vars.state.rules.lighting = true
+            Vars.state.rules.ambientLight = new Color(.2, 0.1, .4, .2)
+            
+            zaWave.at(playerPosition)
+            Time.runTask(10, () => {
+                zaWave.lifetime = 120 * multiplier
+                zaWave.at(playerPosition)
+            })
+            Time.runTask(20, () => {
+                zaWave.lifetime = 180 * multiplier
+                zaWave.at(playerPosition)
+            })
+            Time.runTask(30, () => {
+                zaWave.lifetime = 240 * multiplier
+                zaWave.at(playerPosition)
+            })
+
+            //    Time stop
+            let duration = 9
+            playerUnit.apply(effects.timestop, 1000)
+            let oldAccel = unitType.accel
+            let oldDrag = unitType.drag
+            unitType.accel = oldAccel / multiplier
+            unitType.drag = oldDrag / multiplier
+
+            Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60 * .05)
+            Timer.schedule(() => {
+                Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60)
+                playerUnit.vel.set(0, 0)
+                playerUnit.unapply(effects.timestop)
+                unitType.accel = oldAccel
+                unitType.drag = oldDrag
+
+                Vars.state.rules.lighting = prevLighting
+                Vars.state.rules.ambientLight = prevAmbientLight
+            }, duration)
+        })
     }),
 
     //    Toggles editor mode
-    newCheat("editor mode", "t h i s i s m y w o r l d", () => {
+    newCheat("editor mode", "t h i s i s m y w o r l d", 1, () => {
         let isEditor = Vars.state.rules.editor
         if (!isEditor) {
             Vars.state.rules.editor = !isEditor
@@ -196,7 +234,7 @@ let cheatList = [
         }
     }),
 
-    newCheat("forhonor", "t h i s i s f o r h o n o r", () => {
+    newCheat("forhonor", "t h i s i s f o r h o n o r", 1, () => {
         Vars.player.unit().kill()
     }),
 ]
