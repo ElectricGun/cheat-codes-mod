@@ -1,6 +1,6 @@
-const effects = require("effects")
-const sounds = require("sounds")
-const vars = require("vars")
+const effects = require("/effects")
+const sounds = require("/sounds")
+const vars = require("/vars")
 
 let cooldowns = {}
 

@@ -1,4 +1,4 @@
-const vars = require("vars")
+const vars = require("/vars")
 
 const quickfox = extend(StatusEffect, "quickfox", {
     speedMultiplier: 4,

@@ -1,8 +1,8 @@
     //    TODO add more cheats
 
-const functions = require("functions")
-const cheats = require("cheats")
-const effects = require("effects")
+const functions = require("/functions")
+const cheats = require("/cheats")
+const effects = require("/effects")
 
 let cheatList = cheats.cheatList
 
