@@ -208,7 +208,7 @@ let cheatList = [
             unitType.accel = oldAccel / multiplier
             unitType.drag = oldDrag / multiplier
 
-            Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60 * .05)
+            Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60 * multiplier)
             Timer.schedule(() => {
                 Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60)
                 playerUnit.vel.set(0, 0)

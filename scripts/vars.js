@@ -1,4 +1,4 @@
-const timeStopMultiplier = 0.01
+const timeStopMultiplier = 0.0001
 const debugMode = false
 
 module.exports = {
