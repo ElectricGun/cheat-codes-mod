@@ -1,4 +1,4 @@
-const vars = require("/vars")
+const vars = require("cheat-codes/vars")
 
 const quickfox = extend(StatusEffect, "quickfox", {
     speedMultiplier: 4,
@@ -11,10 +11,10 @@ const timestop = extend(StatusEffect, "timestop", {
 update(unit, time) {
   let timeMultiplier = vars.timeStopMultiplier
   let multiplier = 1 / timeMultiplier
-    unit.speedMultiplier = 1 / timeMultiplier
-    unit.reloadMultiplier = multiplier
+    unit.speedMultiplier = 1 / (timeMultiplier * .05)
+    unit.reloadMultiplier = multiplier * 2
     unit.dragMultiplier = multiplier
-    unit.damageMultiplier = multiplier
+    unit.damageMultiplier = 1
 }
 })
 
