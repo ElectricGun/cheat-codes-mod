@@ -13,7 +13,7 @@ Only works in game.<br>
 | God Mode         | Player will be temporarily immune to damage          | "loremipsumdolorsitamet"               |
 | Rumbling         | Launches burning Toxopids around you                 | "therumblingishere"                    |
 | Thanos Snap      | Erases half of the units on the map                  | "iaminevitable"                        |
-| Time Stop        | Time slows down to a near halt                       | "zawarudo"                             |
+| Time Stop        | Time slows down to a halt                            | "zawarudo"                             |
 | Editor Mode      | Toggles editor mode                                  | "thisismyworld"                        |
 | For Honor        | Destroys player unit (Contributed by Dryehm)         | "thisisforhonor"                       |
 # WIP
