@@ -131,7 +131,7 @@ let cheatList = [
     }),
 
     //    Slows down time while accelerating the player for 9 seconds
-    newCheat("za warudo", "z a w a r u d o", 30, () => {
+    newCheat("za warudo", "z a w a r u d o", 1, () => {
         let playerUnit = Vars.player.unit()
         let unitType = playerUnit.type
         let timeControl = Vars.mods.getMod("time-control");
