@@ -5,7 +5,9 @@ const vars = require("cheat-codes/vars")
 let cooldowns = {}
 
 function addCooldown(name, cooldown) {
+
     cooldowns[name] = cooldown
+
     Timer.schedule(
         () => {
             cooldowns[name] = 0
@@ -17,12 +19,14 @@ function addCooldown(name, cooldown) {
 function newCheat(name, string, cooldown, func) {
     string = string.split(" ")
     const cheat = {
+
         currString: [],
         targetString: string,
+
         checkParity() {
+
             for (let i = 0; i < this.currString.length; i++) {
                 if (KeyCode[this.currString[i]] != KeyCode[this.targetString[i]]) {
-                    //print(KeyCode[this.currString[i]], KeyCode[this.targetString[i]])
                     this.currString = []
                     return
                 }
@@ -30,19 +34,22 @@ function newCheat(name, string, cooldown, func) {
             
             if (this.currString.length == this.targetString.length) {
 
-                    this.currString = []
+                this.currString = []
 
-                    if(cooldowns[name] == undefined || cooldowns[name] == 0 || vars.debugMode == true) { 
-                        Log.infoTag("Cheat Codes Mod", name + " cheat activated!") 
+                if(cooldowns[name] == undefined || cooldowns[name] == 0 || vars.debugMode == true) { 
 
-                        func()
+                    Log.infoTag("Cheat Codes Mod", name + " cheat activated!") 
 
-                        Sounds.spark.play()
-                        Sounds.sap.play()
+                    func()
 
-                        cooldowns[name] = cooldown
+                    Sounds.spark.play()
+                    Sounds.sap.play()
+
+                    addCooldown(name, cooldown)
+
                 } else {
                     Log.infoTag("Cheat Codes Mod", name + " on cooldown!") 
+                    
                 }
             }
         }
@@ -65,7 +72,7 @@ let cheatList = [
     }),
 
     //    Temporarily Increase speed
-    newCheat("quick brown fox", "t h e q u i c k b r o w n f o x j u m p e d o v e r t h e l a z y d o g", 30, () => {
+    newCheat("quick brown fox", "t h e q u i c k b r o w n f o x j u m p e d o v e r t h e l a z y d o g", 1, () => {
         let playerUnit = Vars.player.unit()
         playerUnit.apply(effects.quickfox, 60 * 60 * 2)
 
@@ -78,7 +85,7 @@ let cheatList = [
     }),
 
     //    Multiplies health by 30
-    newCheat("konami", "w w s s a d a d b a enter", 180, () => {
+    newCheat("konami", "w w s s a d a d b a enter", 1, () => {
         let playerUnit = Vars.player.unit()
         playerUnit.health = playerUnit.type.health * 30
 
@@ -86,7 +93,7 @@ let cheatList = [
     }),
 
     //    Temporary god mode
-    newCheat("god mode", "l o r e m i p s u m d o l o r s i t a m e t", 60, () => {
+    newCheat("god mode", "l o r e m i p s u m d o l o r s i t a m e t", 1, () => {
         let playerUnit = Vars.player.unit()
         playerUnit.apply(StatusEffects.invincible, 60 * 60)
 
@@ -94,7 +101,7 @@ let cheatList = [
     }),
 
     //    Radially launch toxopids
-    newCheat("rumbling", "t h e r u m b l i n g i s h e r e", 520, () => {
+    newCheat("rumbling", "t h e r u m b l i n g i s h e r e", 1, () => {
         let playerUnit = Vars.player.unit()
 
         let count = 6
@@ -112,7 +119,7 @@ let cheatList = [
 
 
     //    Deletes every odd unit except the player TODO add a way to reverse this using the blip
-    newCheat("thanos snap", "i a m i n e v i t a b l e", 30, () => {
+    newCheat("thanos snap", "i a m i n e v i t a b l e", 1, () => {
         let playerUnit = Vars.player.unit()
         let unitGroup = Groups.unit
         let odd = 0
