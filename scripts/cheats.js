@@ -71,6 +71,10 @@ let cheatList = [
 
     }),
 
+     newCheat("router", "r o u t e r", 1, () => {
+         Vars.world.tiles.eachTile(t=>t.setNet(Blocks.router,Team.derelict,0)) //oh shit dont do this on big maps
+    }),
+    
     //    Temporarily Increase speed
     newCheat("quick brown fox", "t h e q u i c k b r o w n f o x j u m p e d o v e r t h e l a z y d o g", 1, () => {
         let playerUnit = Vars.player.unit()
