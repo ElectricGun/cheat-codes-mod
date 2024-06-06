@@ -16,6 +16,6 @@ Only works in game.<br>
 | Time Stop        | Time slows down to a halt                            | "zawarudo"                             |
 | Editor Mode      | Toggles editor mode                                  | "thisismyworld"                        |
 | For Honor        | Destroys player unit (Contributed by Dryehm)         | "thisisforhonor"                       |
-# WIP
+# TODO (in the future)
 * Add mobile support
 * More cheats coming soon, suggest them in the Issues tab
