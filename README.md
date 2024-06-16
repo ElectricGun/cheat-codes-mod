@@ -21,4 +21,4 @@ Only works in game.<br>
 | Editor Mode      | Toggles editor mode                                  | "thisismyworld"                        |
 | For Honor        | Destroys player unit (Contributed by Dryehm)         | "thisisforhonor"                       |
 # TODO (in the future)
-* More cheats coming soon, suggest them in the Issues tab
+* More cheats coming soon, suggest them in Issues
