@@ -1,3 +1,5 @@
+// this whole logic needs to be rewritten wow :sob:
+
 const effects = require("cheat-codes/effects")
 const sounds = require("cheat-codes/sounds")
 const vars = require("cheat-codes/vars")
@@ -17,7 +19,9 @@ function addCooldown(name, cooldown) {
 }
 
 function newCheat(name, string, cooldown, func) {
+    // split using " " due to multiple lettered characters
     string = string.split(" ")
+    const mobileString = string.join("")
     const cheat = {
 
         currString: [],
@@ -51,6 +55,28 @@ function newCheat(name, string, cooldown, func) {
                     Log.infoTag("Cheat Codes Mod", name + " on cooldown!") 
                     
                 }
+            }
+        },
+
+        checkParityMobile(text) {
+            if (text == mobileString) {
+                //function this block
+                if(cooldowns[name] == undefined || cooldowns[name] == 0 || vars.debugMode == true) { 
+
+                    Log.infoTag("Cheat Codes Mod", name + " cheat activated!") 
+
+                    func()
+
+                    Sounds.spark.play()
+                    Sounds.sap.play()
+
+                    addCooldown(name, cooldown)
+
+                } else {
+                    Log.infoTag("Cheat Codes Mod", name + " on cooldown!") 
+                    
+                }
+                //
             }
         }
     }

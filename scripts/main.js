@@ -3,6 +3,7 @@
 const functions = require("cheat-codes/functions")
 const cheats = require("cheat-codes/cheats")
 const effects = require("cheat-codes/effects")
+const ui = require("cheat-codes/ui")
 
 let cheatList = cheats.cheatList
 
@@ -14,7 +15,6 @@ Events.run(Trigger.update, () =>{
                 cheat.currString.push(keyTapped)
                 cheat.checkParity()
             })
-
         }
     }
 })
@@ -22,4 +22,8 @@ Events.run(Trigger.update, () =>{
 Events.on(ResetEvent, () => {
     Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60)
     Timer.schedule(() => Vars.player.unit().unapply(effects.timestop), .1)
+})
+
+Events.on(ClientLoadEvent, () => {
+    ui.setupMobile()
 })
