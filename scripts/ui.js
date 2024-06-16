@@ -26,7 +26,7 @@ function setupMobile() {
     })
 
     tab.visibility = () => {
-        return (true ? true : false)
+        return (Vars.ui.hudfrag.shown && Vars.mobile && !Vars.net.client() ? true : false)
     }
 }
 
