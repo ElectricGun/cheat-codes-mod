@@ -3,6 +3,7 @@
 const effects = require("cheat-codes/effects")
 const sounds = require("cheat-codes/sounds")
 const vars = require("cheat-codes/vars")
+const functions = require("cheat-codes/functions")
 
 let cooldowns = {}
 
@@ -173,6 +174,11 @@ let cheatList = [
             return
         }
 
+        if (Vars.mobile) {
+            Log.infoTag("You don't have enough power to stop time (PC Only)")
+            return 
+        }
+
         if (playerUnit.hasEffect(effects.timestop)) {
             return
         }
@@ -267,9 +273,95 @@ let cheatList = [
         }
     }),
 
-    newCheat("forhonor", "t h i s i s f o r h o n o r", 1, () => {
+    newCheat("forhonor", "t h i s i s f o r h o n o r", 1, () => { // dryehm's idea
         Vars.player.unit().kill()
     }),
+
+    newCheat("DOGRESIDUE", "d o g r e s i d u e", 1, () => { // Mindustryenjoyer's idea 
+        let core = Vars.player.core()
+        Vars.content.items().each(item => {core.items.set(item, core.storageCapacity)})
+    }),
+
+    newCheat("third impact", "t u m b l i n g d o w n", 1, () => {
+        let playerUnit = Vars.player.unit()
+        let unitGroup = Groups.unit
+
+        let playerPosition = {
+            x: playerUnit.getX(),
+            y: playerUnit.getY()
+        }
+
+        let counter = 0
+
+        // wave effect thingy
+        let iterations = Math.max(unitGroup.size() / 2, 15)
+
+        for (let i = 0; i < iterations; i++) {
+            Timer.schedule(() => {
+
+                let red = new Vec3(1, 0, 0)
+                let white = new Vec3(1, 1, 1)
+                let black = new Vec3(0, 0, 0)
+
+                let random = Math.random() * 2
+
+                let waveColour
+                if (random < 1) {
+                    waveColour = red.lerp(black, random)
+                } else if (random < 2 && random >= 1) {
+                    waveColour = white.lerp(red, random -1)
+                } else {
+                    waveColour = red.lerp(white, random - 2)
+                }
+
+                let wave = new WaveEffect()
+                Object.assign(wave, {
+                    sizeFrom: 5,
+                    sizeTo: 1000,
+                    strokeFrom: 0,
+                    strokeTo: 100,
+                    lifetime: 600,
+                });
+
+                wave.colorFrom = new Color(waveColour.x, waveColour.y, waveColour.z, 1)
+                wave.colorTo = new Color(waveColour.x, waveColour.y, waveColour.z, 0)
+                wave.at(playerPosition.x, playerPosition.y)
+            }, i * (.5 * Math.random()))
+        }
+
+        Timer.schedule(() => {
+            unitGroup.each(unit => {
+                counter ++
+                if (unit != playerUnit) {
+                    Timer.schedule(() => {
+
+                        if (unit.dead != true) {
+
+                            let unitPosition = {
+                                x: unit.getX() / 8,
+                                y: unit.getY() / 8
+                            }
+
+
+                            let randomRadius = Math.random() * 5
+                            let randomAngle = Math.random() * Math.PI * 2
+                        
+                            let splashPosition  = {
+                                x: Math.cos(randomAngle) * randomRadius + unitPosition.x,
+                                y: Math.sin(randomAngle) * randomRadius + unitPosition.y
+                            }
+                            
+                            //splatter
+                            functions.splash(splashPosition.x, splashPosition.y, unit.hitSize, unit.hitSize * 5, unit.hitSize * 25, 0.0025, Liquids.slag)
+
+                            unit.kill()
+                        }
+                        
+                }, counter * (0.15))   
+                }
+            })
+        }, 2)  
+    })
 ]
 
 module.exports = {
