@@ -15,6 +15,20 @@ function getKeyTap(){
     }
 }
 
+function splash(positionX, positionY, radius, strength, puddles, periodBetweenSplatter, liquid) {
+    for (let i = 0; i < puddles; i++) {
+        let randomRadius = Math.random() * radius
+        let randomAngle = Math.random() * Math.PI * 2
+    
+        let tile = Vars.world.tile(Math.cos(randomAngle) * randomRadius + positionX, Math.sin(randomAngle) * randomRadius + positionY)
+
+        Timer.schedule(() => {
+            Puddles.deposit(tile, liquid, strength / randomRadius)
+        }, periodBetweenSplatter * i)
+    }
+}
+
 module.exports = {
     getKeyTap: getKeyTap,
+    splash: splash,
 }
