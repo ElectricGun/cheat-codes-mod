@@ -2,7 +2,7 @@ name: "cheat-codes"
 displayName: "Cheat Codes Mod"
 author: "electricgun"
 description: "Mobile Release!!\nAdds some rather powerful and fun powerups activated by typing out the right sequence of letters while in-game.\n\nPowerups include:\n[yellow[]]-Time stop\n-God mode\n-Konami code\n-Thanos snap\nand more...\n\n[white[]]Can be used to cheat your way through the game.\n\n[OPTIONAL] Type the cheat codes in the console to prevent activating keybinds, this is not required.\n\n[red[]]READ GITHUB REPO FOR CHEAT LIST"
-version: "1.6"
+version: "1.61"
 repo: "electricgun/cheat-codes-mod"
 hidden: true
 minGameVersion: "136"
