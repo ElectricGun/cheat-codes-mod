@@ -21,7 +21,7 @@ Events.run(Trigger.update, () =>{
 
 Events.on(ResetEvent, () => {
     Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60)
-    Timer.schedule(() => Vars.player.unit().unapply(effects.timestop), .1)
+    Timer.schedule(() => {try{Vars.player.unit().unapply(effects.timestop)} catch(e) {Log.infoTag("Cheat Codes Mod", e.stack) }}, .1)
 })
 
 Events.on(ClientLoadEvent, () => {
