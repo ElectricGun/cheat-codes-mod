@@ -20,7 +20,7 @@ Only works in game.<br>
 | Time Stop        | Time slows down to a halt                                         | "zawarudo"                             |
 | Editor Mode      | Toggles editor mode                                               | "thisismyworld"                        |
 | For Honor        | Destroys player unit (Contributed by Dryehm)                      | "thisisforhonor"                       |
-| DOGRESIDUE       | Fills core by every time (Idea by Mindustryenjoyer)               | "dogresidue"                           |
+| DOGRESIDUE       | Fills core with every item (Idea by Mindustryenjoyer)             | "dogresidue"                           |
 | The Third Impact | Progressively turns every unit into steaming hot orange fanta     | "tumblingdown"                         |
 # TODO (in the future)
 * More cheats coming soon, suggest them in Issues
