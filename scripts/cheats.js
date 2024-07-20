@@ -334,7 +334,7 @@ let cheatList = [
         unitGroup.each(unit => {
             counter ++
             if (unit != playerUnit) {
-                unit.apply(effects.orangeFantaCurse, counter * (0.15) + 2)
+                unit.apply(effects.orangeFantaCurse, (Math.random() * counter * (0.15) + 4) * 60 + 6000)
             }
         })
     }, 2)  
