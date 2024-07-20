@@ -1,7 +1,6 @@
 # Mobile Support
 Added the long requested mobile support!<br>
 Simply tap on the surge-wall button and type in the code.<br>
-To enter special characters such as "enter", just them out normally. For example, Konami on mobile would be "wwssadadbaenter". (THIS MIGHT CHANGE IN THE FUTURE)<br>
 # Cheat Codes Mod
 Adds GTA San Andreas style cheat codes to Mindustry.<br>
 To activate them, simply type out the strings of text corresponding to them until something happens.<br>
