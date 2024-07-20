@@ -27,7 +27,6 @@ const orangeFantaCurse = extend(StatusEffect, "orangeFantaCurse", {
           y: unit.getY() / 8
       }
 
-
     let randomRadius = Math.random() * 5
     let randomAngle = Math.random() * Math.PI * 2
 
@@ -37,9 +36,9 @@ const orangeFantaCurse = extend(StatusEffect, "orangeFantaCurse", {
     }
     
     //splatter
-    functions.splash(splashPosition.x, splashPosition.y, unit.hitSize, unit.hitSize * 5, unit.hitSize * 25, 0.0025, Liquids.slag)
 
-    unit.kill()
+    unit.health = 0
+    functions.splash(splashPosition.x, splashPosition.y, unit.hitSize, unit.hitSize * 5, unit.hitSize * 25, 0.0025, Liquids.slag)
     }
   }
 })

@@ -329,15 +329,16 @@ let cheatList = [
             }, i * (.5 * Math.random()))
         }
 
-        Timer.schedule(() => {
-            unitGroup.each(unit => {
-                counter ++
-                if (unit != playerUnit) {
-                    unit.apply(effects.orangeFantaCurse, counter * (0.15) + 2)
-                }
-            })
-        }, 2)  
-    })
+
+        // apply the CURSE
+        unitGroup.each(unit => {
+            counter ++
+            if (unit != playerUnit) {
+                unit.apply(effects.orangeFantaCurse, counter * (0.15) + 2)
+            }
+        })
+    }, 2)  
+
 ]
 
 module.exports = {
