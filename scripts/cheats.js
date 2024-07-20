@@ -19,10 +19,15 @@ function addCooldown(name, cooldown) {
     )
 }
 
-function newCheat(name, string, cooldown, func) {
+function newCheat(name, string, cooldown, func, mobileStringOverride) {
     // split using " " due to multiple lettered characters
     string = string.split(" ")
-    const mobileString = string.join("")
+    let mobileString = string.join("")
+
+    if (mobileStringOverride != null) {
+        mobileString = mobileStringOverride
+    }
+
     const cheat = {
 
         currString: [],
@@ -109,7 +114,8 @@ let cheatList = [
     //    Self explanatory
     newCheat("wind3", "w i n d num3", 1, () => {
         Sounds.wind3.play()
-    }),
+    }, 
+    "wind3"),
 
     //    Multiplies health by 30
     newCheat("konami", "w w s s a d a d b a enter", 1, () => {
@@ -117,7 +123,8 @@ let cheatList = [
         playerUnit.health = playerUnit.type.health * 30
 
         Vars.ui.showInfoPopup("Unit health multiplied by 30!", 3, 1, 1, 1, 1, 1)
-    }),
+    }, 
+    "wwssadadba"),
 
     //    Temporary god mode
     newCheat("god mode", "l o r e m i p s u m d o l o r s i t a m e t", 1, () => {
