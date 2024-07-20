@@ -24,7 +24,6 @@ const orangeFantaCurse = extend(StatusEffect, "orangeFantaCurse", {
 
   },
   update(unit, time) {
-    print(time)
     if (time <= 6000) {
       let unitPosition = {
         x: unit.getX() / 8,
