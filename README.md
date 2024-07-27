@@ -1,9 +1,11 @@
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/ElectricGun/cheat-codes-mod/total?style=social)
-
 # Mobile Support
 Added the long requested mobile support!<br>
 Simply tap on the surge-wall button and type in the code.<br>
 # Cheat Codes Mod
+
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/ElectricGun/cheat-codes-mod/total?style=social)
+![GitHub Repo stars](https://img.shields.io/github/stars/ElectricGun/cheat-codes-mod?style=social)
+
 Adds GTA San Andreas style cheat codes to Mindustry.<br>
 To activate them, simply type out the strings of text corresponding to them until something happens.<br>
 Mistakes and typos will reset the strings, so make sure you type them out correctly.<br>
