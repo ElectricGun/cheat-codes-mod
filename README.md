@@ -1,3 +1,5 @@
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/ElectricGun/cheat-codes-mod/total?style=social)
+
 # Mobile Support
 Added the long requested mobile support!<br>
 Simply tap on the surge-wall button and type in the code.<br>
