@@ -1,8 +1,7 @@
-// this whole logic needs to be rewritten wow :sob:
-
 const effects = require("cheat-codes/effects")
 const sounds = require("cheat-codes/sounds")
 const vars = require("cheat-codes/vars")
+const bullets = require("cheat-codes/bullets")
 const functions = require("cheat-codes/functions")
 
 let cooldowns = {}
@@ -19,20 +18,17 @@ function addCooldown(name, cooldown) {
     )
 }
 
-function newCheat(name, string, cooldown, func, mobileStringOverride) {
-    // split using " " due to multiple lettered characters
-    string = string.split(" ")
-    let mobileString = string.join("")
+// TODO change string input to an array of strings for alternate cheat codes 
 
-    if (mobileStringOverride != null) {
-        mobileString = mobileStringOverride
-    }
+function newCheat(name, string, cooldown, func, alternateString) {
 
     const cheat = {
 
-        currString: [],
+        //currString: [],
         targetString: string,
+        targetStringAlternate: alternateString,
 
+        /* deprecated
         checkParity() {
 
             for (let i = 0; i < this.currString.length; i++) {
@@ -62,10 +58,10 @@ function newCheat(name, string, cooldown, func, mobileStringOverride) {
                     
                 }
             }
-        },
+        },*/
 
-        checkParityMobile(text) {
-            if (text == mobileString) {
+        checkParityString(text) {
+            if (text == this.targetString || text == this.targetStringAlternate) {
                 //function this block
                 if(cooldowns[name] == undefined || cooldowns[name] == 0 || vars.debugMode == true) { 
 
@@ -89,22 +85,26 @@ function newCheat(name, string, cooldown, func, mobileStringOverride) {
     return cheat
 }
 
-let cheatList = [
-    //    This is kinda annoying to type manually
-
-
+const cheatList = [
+    
     //   Amongus
-    newCheat("amongus", "a m o n g u s", 1, () => {
+    newCheat("amongus", "amongus", 1, () => {
         sounds.amongus.play()
     }),
 
+    /*
     //   TODO
-    newCheat("qwerty", "q w e r t y u i o p", 1, () => {
+    newCheat("qwerty", "qwertyuiop", 1, () => {
 
     }),
+    
+    newCheat("seashells", "shesellsseashellsbytheseashore", 1, () => {
+
+    }),
+    */
 
     //    Temporarily Increase speed
-    newCheat("quick brown fox", "t h e q u i c k b r o w n f o x j u m p e d o v e r t h e l a z y d o g", 1, () => {
+    newCheat("quick brown fox", "thequickbrownfoxjumpedoverthelazydog", 1, () => {
         let playerUnit = Vars.player.unit()
         playerUnit.apply(effects.quickfox, 60 * 60 * 2)
 
@@ -112,13 +112,12 @@ let cheatList = [
     }),
     
     //    Self explanatory
-    newCheat("wind3", "w i n d num3", 1, () => {
+    newCheat("wind3", "wind3", 1, () => {
         Sounds.wind3.play()
-    }, 
-    "wind3"),
+    }),
 
     //    Multiplies health by 30
-    newCheat("konami", "w w s s a d a d b a enter", 1, () => {
+    newCheat("konami", "wwssadadba", 1, () => {
         let playerUnit = Vars.player.unit()
         playerUnit.health = playerUnit.type.health * 30
 
@@ -127,7 +126,7 @@ let cheatList = [
     "wwssadadba"),
 
     //    Temporary god mode
-    newCheat("god mode", "l o r e m i p s u m d o l o r s i t a m e t", 1, () => {
+    newCheat("god mode", "loremipsumdolorsitamet", 1, () => {
         let playerUnit = Vars.player.unit()
         playerUnit.apply(StatusEffects.invincible, 60 * 60)
 
@@ -135,7 +134,7 @@ let cheatList = [
     }),
 
     //    Radially launch toxopids
-    newCheat("rumbling", "t h e r u m b l i n g i s h e r e", 1, () => {
+    newCheat("rumbling", "therumblingishere", 1, () => {
         let playerUnit = Vars.player.unit()
 
         let count = 6
@@ -153,7 +152,7 @@ let cheatList = [
 
 
     //    Deletes every odd unit except the player TODO add a way to reverse this using the blip
-    newCheat("thanos snap", "i a m i n e v i t a b l e", 1, () => {
+    newCheat("thanos snap", "iaminevitable", 1, () => {
         let playerUnit = Vars.player.unit()
         let unitGroup = Groups.unit
         let odd = 0
@@ -172,7 +171,7 @@ let cheatList = [
     }),
 
     //    Slows down time while accelerating the player for 9 seconds
-    newCheat("za warudo", "z a w a r u d o", 1, () => {
+    newCheat("za warudo", "zawarudo", 1, () => {
         let playerUnit = Vars.player.unit()
         let unitType = playerUnit.type
         let timeControl = Vars.mods.getMod("time-control");
@@ -268,8 +267,9 @@ let cheatList = [
         })
     }),
 
+    /* disabled
     //    Toggles editor mode
-    newCheat("editor mode", "t h i s i s m y w o r l d", 1, () => {
+    newCheat("editor mode", "thisismyworld", 1, () => {
         let isEditor = Vars.state.rules.editor
         if (!isEditor) {
             Vars.state.rules.editor = !isEditor
@@ -279,17 +279,22 @@ let cheatList = [
             Vars.ui.showInfoPopup("Editor Mode disabled.", 2, 1, 1, 1, 1, 1)
         }
     }),
+    */
 
-    newCheat("forhonor", "t h i s i s f o r h o n o r", 1, () => { // dryehm's idea
+    newCheat("Creative Power", "thisismyworld", 1, () => {
+        Vars.player.unit().type.buildSpeed = 1000
+    }),
+
+    newCheat("forhonor", "thisisforhonor", 1, () => { // dryehm's idea
         Vars.player.unit().kill()
     }),
 
-    newCheat("DOGRESIDUE", "d o g r e s i d u e", 1, () => { // Mindustryenjoyer's idea 
+    newCheat("DOGRESIDUE", "dogresidue", 1, () => { // Github User Mindustryenjoyer's idea 
         let core = Vars.player.core()
         Vars.content.items().each(item => {core.items.set(item, core.storageCapacity)})
     }),
 
-    newCheat("third impact", "t u m b l i n g d o w n", 1, () => {
+    newCheat("third impact", "tumblingdown", 1, () => {
         let playerUnit = Vars.player.unit()
         let unitGroup = Groups.unit
 
@@ -337,15 +342,37 @@ let cheatList = [
         }
 
 
-        // apply the CURSE
+        // apply the CURSE/blessing
         unitGroup.each(unit => {
             counter ++
             if (unit != playerUnit) {
-                unit.apply(effects.orangeFantaCurse, (Math.random() * counter * (0.15) + 4) * 60 + 6000)
+                unit.apply(effects.instrumentality, (Math.random() * counter * (0.15) + 4) * 60 + 6000)
             }
         })
-    }, 2)  
+    }, "come sweet death"),  
 
+    newCheat("Skip Survival", "myhousenow", 1, () => {
+        Vars.state.wave = Vars.state.rules.winWave
+    }),
+
+    newCheat("Atomic", "i am ATOMIC", 1, () => { //Github User BlueDragonInfinity's idea
+        let playerUnit = Vars.player.unit()
+
+        let playerPosition = {
+            x: playerUnit.getX(),
+            y: playerUnit.getY()
+        }
+
+        const atomicBullet = bullets.atomicBullet(4000, 6, 1000, 1, 50, playerUnit)
+
+        for (let i = 0; i < 10; i++) {
+            let position = functions.randomWithinRadius(60, 200)
+
+            Call.createBullet(atomicBullet, Team.derelict, playerPosition.x + position.x, playerPosition.y + position.y, Math.random() * 360, 0, Math.random() + 1, Math.random() + 1)
+        }
+    }),
+
+    
 ]
 
 module.exports = {
