@@ -1,6 +1,7 @@
 const vars = require("cheat-codes/vars")
 const functions = require("cheat-codes/functions")
 
+
 const quickfox = extend(StatusEffect, "quickfox", {
     speedMultiplier: 4,
     isHidden(){
@@ -19,7 +20,7 @@ update(unit, time) {
 }
 })
 
-const orangeFantaCurse = extend(StatusEffect, "orangeFantaCurse", {
+const instrumentality = extend(StatusEffect, "instrumentality", {
   onRemoved(unit) {
 
   },
@@ -46,8 +47,8 @@ const orangeFantaCurse = extend(StatusEffect, "orangeFantaCurse", {
   }
 })
 
-  module.exports = {
-    quickfox: quickfox,
-    timestop: timestop,
-    orangeFantaCurse: orangeFantaCurse,
-  }
+module.exports = {
+  quickfox: quickfox,
+  timestop: timestop,
+  instrumentality: instrumentality,
+}

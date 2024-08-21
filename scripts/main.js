@@ -1,10 +1,9 @@
-    //    TODO add more cheats
+//    I hate javascript so much why am i doing this
 
-const functions = require("cheat-codes/functions")
-const cheats = require("cheat-codes/cheats")
 const effects = require("cheat-codes/effects")
 const ui = require("cheat-codes/ui")
 
+/* deprecated
 let cheatList = cheats.cheatList
 
 Events.run(Trigger.update, () =>{
@@ -18,6 +17,7 @@ Events.run(Trigger.update, () =>{
         }
     }
 })
+*/
 
 Events.on(ResetEvent, () => {
     Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60)
@@ -25,5 +25,5 @@ Events.on(ResetEvent, () => {
 })
 
 Events.on(ClientLoadEvent, () => {
-    ui.setupMobile()
+    ui.setupUI()
 })

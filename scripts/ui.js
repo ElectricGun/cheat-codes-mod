@@ -1,7 +1,6 @@
-// ui for mobiiiileeeeeeeeeeeeeeeeeee
 const cheats = require("cheat-codes/cheats")
 
-function setupMobile() {
+function setupUI() {
     let overlaymarkerTable = Vars.ui.hudGroup.find("statustable");
     overlaymarkerTable.row();
 
@@ -19,17 +18,18 @@ function setupMobile() {
         t.clicked(() => {
             Vars.ui.showTextInput("", "Cheat", 32768, "", false, text => {
                 cheats.cheatList.forEach(cheat => {
-                    cheat.checkParityMobile(text)
+                    cheat.checkParityString(text)
                 })
             })
         })
     })
 
     tab.visibility = () => {
-        return (Vars.ui.hudfrag.shown && Vars.mobile && !Vars.net.client() ? true : true)
+        // return (Vars.ui.hudfrag.shown && Vars.mobile && !Vars.net.client() ? true : false)
+        return (Vars.ui.hudfrag.shown && !Vars.net.client() ? true : false)
     }
 }
 
 module.exports = {
-    setupMobile: setupMobile,
+    setupUI: setupUI,
 }
