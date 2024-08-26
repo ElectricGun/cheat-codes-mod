@@ -67,7 +67,11 @@ function newCheat(name, string, cooldown, func, alternateString) {
 
                     Log.infoTag("Cheat Codes Mod", name + " cheat activated!") 
 
-                    func()
+                    try {
+                        func()
+                    } catch (e) {
+                        Log.infoTag("Cheat Codes Mod", e) 
+                    }
 
                     Sounds.spark.play()
                     Sounds.sap.play()
