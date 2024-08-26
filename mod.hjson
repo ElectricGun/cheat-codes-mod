@@ -2,7 +2,7 @@ name: "cheat-codes"
 displayName: "Cheat Codes Mod"
 author: "electricgun"
 description: "Reworked for PC to be the same as mobile\nAdds some rather powerful and fun powerups activated by entering the correct strings.\n\nPowerups include:\n[yellow[]]-Time stop\n-God mode\n-Konami code\n-Thanos snap\nand more...\n\n[white[]]Can be used to cheat your way through the game.\n\n[red[]]READ GITHUB REPO FOR CHEAT LIST"
-version: "1.7"
+version: "1.71"
 repo: "electricgun/cheat-codes-mod"
 hidden: true
 minGameVersion: "136"
