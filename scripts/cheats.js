@@ -184,10 +184,10 @@ const cheatList = [
             return
         }
 
-        if (Vars.mobile) {
-            Log.infoTag("You don't have enough power to stop time (PC Only)")
-            return 
-        }
+        // if (Vars.mobile) {
+        //     Log.infoTag("You don't have enough power to stop time (PC Only)")
+        //     return 
+        // }
 
         if (playerUnit.hasEffect(effects.timestop)) {
             return
