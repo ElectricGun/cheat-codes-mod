@@ -1,4 +1,4 @@
-# Version 1.7.1
+# Version 1.72
 The PC version now uses the same UI input as mobile.<br>
 This is to avoid confusion and other problems, such as hotkeys activating while typing.<br>
 Added more cheats: <br>
