@@ -1,8 +1,8 @@
 name: "cheat-codes"
 displayName: "Cheat Codes Mod"
 author: "electricgun"
-description: "Fixed crashing on v8+\nAdds some rather powerful and fun powerups activated by entering the correct strings.\n\nPowerups include:\n[yellow[]]-Time stop\n-God mode\n-Konami code\n-Thanos snap\nand more...\n\n[white[]]Can be used to cheat your way through the game.\n\n[red[]]READ GITHUB REPO FOR CHEAT LIST"
-version: "1.73"
+description: "UPDATE: Fixed crashing on v8+\n\nAdds some rather powerful and fun powerups activated by entering the correct strings.\n\nPowerups include:\n[yellow[]]-Time stop\n-God mode\n-Konami code\n-Thanos snap\nand more...\n\n[white[]]Can be used to cheat your way through the game.\n\n[red[]]READ GITHUB REPO FOR CHEAT LIST"
+version: "v1.7.3"
 repo: "electricgun/cheat-codes-mod"
 hidden: true
 minGameVersion: "136"
