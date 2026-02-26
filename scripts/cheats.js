@@ -73,8 +73,8 @@ function newCheat(name, string, cooldown, func, alternateString) {
                         Log.infoTag("Cheat Codes Mod", e) 
                     }
 
-                    Sounds.spark.play()
-                    Sounds.sap.play()
+                    // Sounds.shootArc.play()
+                    // Sounds.shootSap.play()
 
                     addCooldown(name, cooldown)
 
