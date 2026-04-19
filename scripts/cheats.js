@@ -303,6 +303,22 @@ const cheatList = [
         Vars.player.unit().type.buildSpeed = 1000
     }),
 
+    newCheat("Overpopulation", "overpopulate", 1, () => {
+        Vars.content.blocks().each(block => {
+            if (block instanceof UnitFactory) {
+                block.plans.each(plan => {
+                    plan.time = 60
+                })
+            }
+
+            if (block instanceof Reconstructor) {
+                block.constructTime = 60
+            }
+        })
+
+        Vars.ui.showInfoPopup("Unit production time reduced to 1 second!", 3, 1, 1, 1, 1, 1)
+    }),
+
     newCheat("forhonor", "thisisforhonor", 1, () => { // dryehm's idea
         Vars.player.unit().kill()
     }),
