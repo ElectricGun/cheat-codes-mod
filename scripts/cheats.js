@@ -319,6 +319,16 @@ const cheatList = [
         Vars.ui.showInfoPopup("Unit production time reduced to 1 second!", 3, 1, 1, 1, 1, 1)
     }),
 
+    newCheat("work harder ma boi", "workboiwork", 1, () => {
+        vars.maxEfficiencyEnabled = !vars.maxEfficiencyEnabled
+
+        if (vars.maxEfficiencyEnabled) {
+            Vars.ui.showInfoPopup("Maximum efficiency enabled!", 3, 1, 1, 1, 1, 1)
+        } else {
+            Vars.ui.showInfoPopup("Maximum efficiency disabled!", 3, 1, 1, 1, 1, 1)
+        }
+    }),
+
     newCheat("forhonor", "thisisforhonor", 1, () => { // dryehm's idea
         Vars.player.unit().kill()
     }),
