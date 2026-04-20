@@ -21,7 +21,7 @@ A mod that adds extremely broken power ups that are activated by entering specif
 | Time Stop          | Time slows down to a halt (broken on mobile)                                                                     | "zawarudo"                                      |
 | For Honor          | Destroys player unit (contributed by Dryehm)                                                                     | "thisisforhonor"                                |
 | Ovepopulation      | Reduces unit production time to 1 second(contributed by aavarvd)                                                 | "overpopulate"                                  |
-| Work harder ma boi | Keeps non-distribution buildings supplied with liquids, power, and boost for peak efficiency without maxing item inputs(contributed by aavarvd) | "workboiwork"                                   |
+| Work harder ma boi | Keeps non-distribution buildings supplied with liquids, power, and boost for best efficiency(contributed by aavarvd) | "workboiwork"                                   |
 | DOGRESIDUE         | Fills core with every item (idea by Mindustryenjoyer)                                                            | "dogresidue"                                    |
 | The Third Impact   | Progressively turns every unit into steaming hot orange fanta                                                    | "tumblingdown" or "come sweet death"            |
 | Skip Survival      | Instantly captures a survival map                                                                                | "myhousenow"                                    |
