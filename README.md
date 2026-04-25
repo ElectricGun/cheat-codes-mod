@@ -20,6 +20,7 @@ A mod that adds extremely broken power ups that are activated by entering specif
 | Thanos Snap      | Erases half of the units on the map                                                                       | "iaminevitable"                                 |
 | Time Stop        | Time slows down to a halt (broken on mobile)                                                              | "zawarudo"                                      |
 | For Honor        | Destroys player unit (contributed by Dryehm)                                                              | "thisisforhonor"                                |
+| Ovepopulation    | Reduces unit production time to 1 second(contributed by aavarvd)                                          | "overpopulate"                                  |
 | DOGRESIDUE       | Fills core with every item (idea by Mindustryenjoyer)                                                     | "dogresidue"                                    |
 | The Third Impact | Progressively turns every unit into steaming hot orange fanta                                             | "tumblingdown" or "come sweet death"            |
 | Skip Survival    | Instantly captures a survival map                                                                         | "myhousenow"                                    |
