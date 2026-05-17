@@ -1,3 +1,6 @@
+# Versionn v1.7.4
+- Added new cheats ("knowledge" and "conquer") for researching everything and unlocking all sectors (irreversible!)
+
 # Version v1.7.3
 - Fixed crashing on the latest mindustry versions
 
@@ -26,5 +29,7 @@ A mod that adds extremely broken power ups that are activated by entering specif
 | Skip Survival    | Instantly captures a survival map                                                                         | "myhousenow"                                    |
 | Creative Power   | Infinite Build Speed (for the unit type you are currently in)                                             | "thisismyworld"                                 |
 | Atomic           | Kills every unit on the map (except the player) and devastates buildings (idea by BlueDragonInfinity)     | "i am ATOMIC"                                   |
+| Knowledge        | Researches literally everything                                                                           | "knowledge"                                     |
+| Conquer          | Marks all sectors for unlock. May require Knowledge to unlock all sectors properly                        | "conquer"                                       |
 # TODO (in the future)
 * More cheats coming soon, suggest them in Issues

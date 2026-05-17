@@ -406,7 +406,22 @@ const cheatList = [
         }
     }),
 
-    
+    newCheat("Knowledge", "knowledge", 1, () => {
+        Vars.content.each(c => {
+            if(c.unlock) c.unlock();
+        });
+
+        print("[Cheat Codes Mod] Unlocked everything!")
+    }),
+
+    newCheat("Conquer", "conquer", 1, () => {
+        Vars.content.planets().each(p => {
+            p.sectors.each(s => {
+                s.info.wasCaptured = true;
+                s.info.hasCore = true;
+            });
+        });
+    })
 ]
 
 module.exports = {
