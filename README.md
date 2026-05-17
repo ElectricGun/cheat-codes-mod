@@ -1,5 +1,6 @@
-# Versionn v1.7.4
+# Version v1.7.4
 - Added new cheats ("knowledge" and "conquer") for researching everything and unlocking all sectors (irreversible!)
+- Added cheat "overpopulate" by aavarvd
 
 # Version v1.7.3
 - Fixed crashing on the latest mindustry versions
