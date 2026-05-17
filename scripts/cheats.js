@@ -4,6 +4,18 @@ const vars = require("cheat-codes/vars")
 const bullets = require("cheat-codes/bullets")
 const functions = require("cheat-codes/functions")
 
+// Mobile-friendly slow effect: applied to other units to simulate a global slowdown
+const mobileTimestop = extend(StatusEffect, "cc-mobile-timestop", {
+    update(unit, time) {
+        // fixed multipliers so values don't stack each tick
+        unit.speedMultiplier = 0.05
+        unit.reloadMultiplier = 0.05
+        unit.dragMultiplier = 1
+        unit.damageMultiplier = 1
+    },
+    isHidden() { return true }
+})
+
 let cooldowns = {}
 
 function addCooldown(name, cooldown) {
@@ -190,7 +202,18 @@ const cheatList = [
 
     //    Slows down time while accelerating the player for 9 seconds
     newCheat("za warudo", "zawarudo", 1, () => {
-        let playerUnit = Vars.player.unit()
+        // Guard: ensure there's a player unit and don't attempt time-stop on mobile
+        let playerUnit = null
+        try { playerUnit = Vars.player.unit() } catch (e) { playerUnit = null }
+
+        if (playerUnit == null) {
+            Log.infoTag("Cheat Codes Mod", "No player unit available for za warudo")
+            try { Vars.ui.showInfoPopup("No player unit to time-stop.", 3, 1,1,1,1,1) } catch (e) {}
+            return
+        }
+
+        let isMobile = Vars.mobile
+
         let unitType = playerUnit.type
         let timeControl = Vars.mods.getMod("time-control");
         if (timeControl != null && timeControl.isSupported() && timeControl.enabled()) {
@@ -198,14 +221,7 @@ const cheatList = [
             return
         }
 
-        // if (Vars.mobile) {
-        //     Log.infoTag("You don't have enough power to stop time (PC Only)")
-        //     return 
-        // }
-
-        if (playerUnit.hasEffect(effects.timestop)) {
-            return
-        }
+        if (playerUnit.hasEffect(effects.timestop)) return
 
         let multiplier = vars.timeStopMultiplier
 
@@ -222,18 +238,20 @@ const cheatList = [
             lightScl: 0
         })
 
-        let zaWave = new WaveEffect()
-        Object.assign(zaWave, {
-            colorFrom: new Color(.4,0,.8,1),
-            colorTo: new Color(.6,.6,.3,0),
-            sizeFrom: 0,
-            sizeTo: 1000,
-            strokeFrom: 0,
-            strokeTo: 100,
-            lifetime: 60 * multiplier,
-            lightScl: 0
-        })
-        
+         let visualMultiplier = isMobile ? 1 : multiplier
+
+         let zaWave = new WaveEffect()
+         Object.assign(zaWave, {
+             colorFrom: new Color(.4,0,.8,1),
+             colorTo: new Color(.6,.6,.3,0),
+             sizeFrom: 0,
+             sizeTo: 1000,
+             strokeFrom: 0,
+             strokeTo: 100,
+             lifetime: 60 * visualMultiplier,
+             lightScl: 0
+         })
+
         let playerPosition = new Vec2(playerUnit.x, playerUnit.y)
 
         prezaWave.at(playerPosition)
@@ -263,25 +281,45 @@ const cheatList = [
                 zaWave.at(playerPosition)
             })
 
-            //    Time stop
+            //    Time stop (desktop) or mobile-friendly slow (mobile)
             let duration = 9
-            playerUnit.apply(effects.timestop, 1000)
-            let oldAccel = unitType.accel
-            let oldDrag = unitType.drag
-            unitType.accel = oldAccel / multiplier
-            unitType.drag = oldDrag / multiplier
 
-            Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60 * multiplier)
-            Timer.schedule(() => {
-                Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60)
-                playerUnit.vel.set(0, 0)
-                playerUnit.unapply(effects.timestop)
-                unitType.accel = oldAccel
-                unitType.drag = oldDrag
+            if (isMobile) {
+                // Simulate slowdown by applying a strong slow effect to other units
+                let durTicks = duration * 60
+                Groups.unit.each(u => {
+                    try {
+                        if (u != playerUnit) u.apply(mobileTimestop, durTicks)
+                    } catch (e) {}
+                })
 
-                Vars.state.rules.lighting = prevLighting
-                Vars.state.rules.ambientLight = prevAmbientLight
-            }, duration)
+                // Give the player a speed boost so they feel fast relative to slowed units
+                try { playerUnit.apply(effects.quickfox, durTicks) } catch (e) {}
+
+                // restore lighting after duration
+                Timer.schedule(() => {
+                    Vars.state.rules.lighting = prevLighting
+                    Vars.state.rules.ambientLight = prevAmbientLight
+                }, duration)
+            } else {
+                playerUnit.apply(effects.timestop, 1000)
+                let oldAccel = unitType.accel
+                let oldDrag = unitType.drag
+                unitType.accel = oldAccel / multiplier
+                unitType.drag = oldDrag / multiplier
+
+                Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60 * multiplier)
+                Timer.schedule(() => {
+                    Time.setDeltaProvider(() => Core.graphics.getDeltaTime() * 60)
+                    playerUnit.vel.set(0, 0)
+                    playerUnit.unapply(effects.timestop)
+                    unitType.accel = oldAccel
+                    unitType.drag = oldDrag
+
+                    Vars.state.rules.lighting = prevLighting
+                    Vars.state.rules.ambientLight = prevAmbientLight
+                }, duration)
+            }
         })
     }),
 
@@ -317,6 +355,16 @@ const cheatList = [
         })
 
         Vars.ui.showInfoPopup("Unit production time reduced to 1 second!", 3, 1, 1, 1, 1, 1)
+    }),
+
+    newCheat("work harder ma boi", "workboiwork", 1, () => {
+        vars.maxEfficiencyEnabled = !vars.maxEfficiencyEnabled
+
+        if (vars.maxEfficiencyEnabled) {
+            Vars.ui.showInfoPopup("Maximum efficiency enabled!", 3, 1, 1, 1, 1, 1)
+        } else {
+            Vars.ui.showInfoPopup("Maximum efficiency disabled!", 3, 1, 1, 1, 1, 1)
+        }
     }),
 
     newCheat("forhonor", "thisisforhonor", 1, () => { // dryehm's idea
@@ -423,6 +471,97 @@ const cheatList = [
         });
     })
 ]
+
+// --- Max efficiency tracking and optimized updater ---
+// Instead of iterating every build every update, keep a cached list
+// of potentially-affected builds and only refresh that cache occasionally.
+let _maxEffTracked = []
+let _maxEffUpdateCounter = 0
+let _maxEffRefreshCounter = 0
+const _maxEffRefreshInterval = 600 // ticks between full refreshes (~10s)
+let _maxEffLastState = false
+
+function _refreshMaxEffTracked() {
+    _maxEffTracked = []
+    try {
+        Groups.build.each(b => {
+            try {
+                if (b == null || b.block == null) return
+                if (b.block.category == Category.distribution) return
+
+                // track builds that use liquids, power, or support overdrive
+                if ((b.liquids != null && b.block.liquidCapacity > 0) || (b.power != null) || (b.applyBoost != null && b.block.canOverdrive)) {
+                    _maxEffTracked.push(b)
+                }
+            } catch (e) {
+                Log.infoTag("Cheat Codes Mod", e)
+            }
+        })
+    } catch (e) {
+        Log.infoTag("Cheat Codes Mod", e)
+    }
+}
+
+// Reset cached state on map reset
+Events.on(ResetEvent, () => {
+    _maxEffTracked = []
+    _maxEffUpdateCounter = 0
+    _maxEffRefreshCounter = 0
+    _maxEffLastState = false
+})
+
+// Main updater: runs infrequently and only processes cached builds
+Events.run(Trigger.update, () => {
+    if (!Vars.state.isGame()) return
+
+    // If the cheat was just enabled, force a refresh
+    if (vars.maxEfficiencyEnabled && !_maxEffLastState) {
+        _refreshMaxEffTracked()
+        _maxEffLastState = true
+    } else if (!vars.maxEfficiencyEnabled && _maxEffLastState) {
+        // disabled -> clear cache
+        _maxEffTracked = []
+        _maxEffLastState = false
+        return
+    }
+
+    if (!vars.maxEfficiencyEnabled) return
+
+    _maxEffUpdateCounter++
+    if (_maxEffUpdateCounter < 20) return // do main work every 20 ticks
+    _maxEffUpdateCounter = 0
+
+    _maxEffRefreshCounter++
+    if (_maxEffRefreshCounter >= _maxEffRefreshInterval) {
+        _refreshMaxEffTracked()
+        _maxEffRefreshCounter = 0
+    }
+
+    // Iterate only cached builds; remove invalid/removed builds lazily
+    for (let i = 0; i < _maxEffTracked.length; i++) {
+        let build = _maxEffTracked[i]
+        if (build == null || build.block == null) {
+            _maxEffTracked.splice(i, 1)
+            i--
+            continue
+        }
+
+        try {
+            if (build.liquids != null && build.block != null && build.block.liquidCapacity > 0) {
+                Vars.content.liquids().each(liquid => {
+                    const missingLiquid = build.block.liquidCapacity - build.liquids.get(liquid)
+                    if (missingLiquid > 0.001) build.liquids.add(liquid, missingLiquid)
+                })
+            }
+
+            if (build.power != null && build.power.status < 1) build.power.status = 1
+
+            if (build.applyBoost != null && build.block != null && build.block.canOverdrive) build.applyBoost(40, 2)
+        } catch (e) {
+            Log.infoTag("Cheat Codes Mod", e)
+        }
+    }
+})
 
 module.exports = {
     newCheat: newCheat,
